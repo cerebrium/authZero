@@ -39,6 +39,16 @@ export const login = () => {
   auth.authorize()
 }
 
+export const silentAuth = callback => {
+    if (!isAuthenticated()) return callback()
+    auth.checkSession({}, setSession(callback))
+}
+
+export const logout = () => {
+localStorage.setItem("isLoggedIn", false)
+auth.logout()
+}
+
 const setSession = (cb = () => {}) => (err, authResult) => {
   if (err) {
     navigate("/")
